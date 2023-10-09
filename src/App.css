@@ -1,0 +1,33 @@
+.container {
+  position: relative;
+  width: 100vw; /* Full viewport width */
+  height: 100vh;
+  overflow: hidden;
+}
+
+.moving-line {
+  position: absolute;
+  top: 0; /* This will be overridden by React */
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: black;
+}
+
+.hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: grey;
+  color: grey;
+  font-size: 10px;
+}
+
+.hour-line::before {
+  content: attr(data-hour);
+  position: absolute;
+  right: 5px;
+  bottom: 50%;
+  transform: translateY(50%);
+}
