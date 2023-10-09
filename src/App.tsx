@@ -1,47 +1,42 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 
-const HourLines = () => {
-  const lines = [];
-  for (let i = 0; i < 24; i++) {
-    const position = (i / 24) * 100;
-    lines.push(
-      <div
-        key={i}
-        className="hour-line"
-        style={{ top: `${position}%` }}
-      >
-        {i}
-      </div>
-    );
-  }
-  return <>{lines}</>;
-};
+// array
+const range = (n: number) => Array.from({ length: n }, (_, i) => i);
+
+// math
+const getPercentage = (part: number, whole: number) => part / whole * 100;
+
+// time
+const hoursInDay = 24;
+const minutesInHour = 60;
+const secondsInMinute = 60;
+const secondsInDay = hoursInDay * minutesInHour * secondsInMinute;
+const getTotalMinutes = (date: Date) => date.getHours() * minutesInHour + date.getMinutes()
+const getTotalSeconds = (date: Date) => getTotalMinutes(date) * secondsInMinute + date.getSeconds()
+const getCurrentDaySecond = () => getTotalSeconds(new Date());
+
+const updateIntervalInMS = 1000;
+
+const HourLine = ({ hour }: { hour: number }) =>
+  <div className="hour-line" style={{ top: `${getPercentage(hour, hoursInDay)}%` }}>{hour}</div>;
+
+const MovingLine = ({ second }: { second: number }) =>
+  <div className="moving-line" style={{ top: `${getPercentage(second, secondsInDay)}%` }}></div>
 
 const App = () => {
-  const [position, setPosition] = useState(0);
+  const [currentSecond, setCurrentSecond] = useState(getCurrentDaySecond());
+  const updateCurrentSecond = () => setCurrentSecond(getCurrentDaySecond());
 
   useEffect(() => {
-    const updatePosition = () => {
-      const currentTime = new Date();
-      const currentHour = currentTime.getHours();
-      const currentMinutes = currentTime.getMinutes();
-      const currentSeconds = currentTime.getSeconds();
-      const totalSeconds = ((currentHour * 3600) + (currentMinutes * 60) + currentSeconds);
-      const percentage = (totalSeconds / 86400) * 100; // 86400 seconds in a day
-      setPosition(percentage);
-    };
-
-    updatePosition();
-    const timerID = setInterval(updatePosition, 1000); // Update every second
-
+    const timerID = setInterval(updateCurrentSecond, updateIntervalInMS);
     return () => clearInterval(timerID);
   }, []);
 
   return (
     <div className="container">
-      <HourLines />
-      <div className="moving-line" style={{ top: `${position}%` }}></div>
+      {range(hoursInDay).map(hour => <HourLine key={hour} hour={hour} />)}
+      <MovingLine second={currentSecond} />
     </div>
   );
 };
