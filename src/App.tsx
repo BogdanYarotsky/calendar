@@ -31,8 +31,10 @@ const events: Event[] = [
 
 const updateIntervalInMS = 1000;
 
-const HourLine = ({ hour }: { hour: number }) =>
-  <div className="hour-line" style={{ top: `${getPercentage(hour, HOURS_IN_DAY)}%` }}>{hour}</div>;
+const HourLine = ({ hour, renderHour }: { hour: number, renderHour: boolean }) =>
+  <div className="hour-line" style={{ top: `${getPercentage(hour, HOURS_IN_DAY)}%` }}>
+    {renderHour && hour}
+  </div>;
 
 const MovingLine = ({ second }: { second: number }) =>
   <div className="moving-line" style={{ top: `${getPercentage(second, SECONDS_IN_DAY)}%` }}></div>
@@ -72,7 +74,7 @@ export default function App() {
                     <EventBlock key={i} event={event} />
                   ))}
               </div>
-              {range(HOURS_IN_DAY).map(hour => <HourLine key={hour} hour={hour} />)}
+              {range(HOURS_IN_DAY).map(hour => <HourLine key={hour} hour={hour} renderHour={i == 0} />)}
             </div>
           </div>
         ))}
