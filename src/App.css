@@ -1,10 +1,37 @@
 .container {
-  width: 100vw; /* Full viewport width */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 for 7 days */
+  grid-template-rows: 1fr; /* takes the full height */
+  width: 100vw;
   height: 100vh;
+  position: relative; /* for the hour lines and moving line */
+}
+
+.weekday-container {
+  grid-column: 1 / -1; /* span all columns */
+  display: contents; /* so it doesn't create an extra layer in the grid */
+}
+
+.weekday-column {
+  grid-row: 1; /* to ensure overlap */
+  position: relative; /* for positioning event blocks */
+}
+
+.weekday-header {
+  font-size: 12px; /* Adjust the font size to your liking */
+  text-align: center;
+  padding: 10px 0;
+}
+
+.hour-line,
+.moving-line {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  z-index: 1;
+  position: absolute; /* make it absolute so that it's relative to the grid cell */
 }
 
 .moving-line {
-  position: absolute;
   left: 0;
   right: 0;
   height: 2px;
@@ -12,7 +39,6 @@
 }
 
 .hour-line {
-  position: absolute;
   left: 0;
   right: 0;
   height: 2px;
@@ -21,20 +47,11 @@
   font-size: 10px;
 }
 
-.weekday-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.weekday-column {
-  flex: 1;
-  border-right: 1px solid grey;
-  text-align: center;
-}
-
 .event-block {
   position: absolute;
   width: 100%;
-  background-color: blue;
-  opacity: 0.5;
+  background-color: purple;
+  color: black;
+  text-align: center;
+  opacity: 0.6;
 }

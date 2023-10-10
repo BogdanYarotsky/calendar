@@ -61,12 +61,14 @@ export default function App() {
       <div className="weekday-container">
         {weekdays.map((weekday, i) => (
           <div key={i} className="weekday-column">
-            {weekday}
-            {events
-              .filter(event => event.weekday === weekday)
-              .map((event, i) => (
-                <EventBlock key={i} event={event} />
-              ))}
+            <div className="weekday-header">{weekday}</div>
+            <div className="event-container">
+              {events
+                .filter(event => event.weekday === weekday)
+                .map((event, i) => (
+                  <EventBlock key={i} event={event} />
+                ))}
+            </div>
           </div>
         ))}
       </div>
@@ -74,4 +76,4 @@ export default function App() {
       <MovingLine second={currentSecond} />
     </div>
   );
-};
+}
