@@ -24,6 +24,8 @@ interface Event {
 const events: Event[] = [
   { weekday: "Monday", startHour: 3, endHour: 5 },
   { weekday: "Tuesday", startHour: 7, endHour: 9 },
+  { weekday: "Wednesday", startHour: 0, endHour: 4 },
+
   // Add more events...
 ];
 
@@ -62,17 +64,19 @@ export default function App() {
         {weekdays.map((weekday, i) => (
           <div key={i} className="weekday-column">
             <div className="weekday-header">{weekday}</div>
-            <div className="event-container">
-              {events
-                .filter(event => event.weekday === weekday)
-                .map((event, i) => (
-                  <EventBlock key={i} event={event} />
-                ))}
+            <div className="content-container"> {/* New Wrapper */}
+              <div className="event-container">
+                {events
+                  .filter(event => event.weekday === weekday)
+                  .map((event, i) => (
+                    <EventBlock key={i} event={event} />
+                  ))}
+              </div>
+              {range(HOURS_IN_DAY).map(hour => <HourLine key={hour} hour={hour} />)}
             </div>
           </div>
         ))}
       </div>
-      {range(1, HOURS_IN_DAY).map(hour => <HourLine key={hour} hour={hour} />)}
       <MovingLine second={currentSecond} />
     </div>
   );

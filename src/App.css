@@ -15,12 +15,16 @@
 .weekday-column {
   grid-row: 1; /* to ensure overlap */
   position: relative; /* for positioning event blocks */
+  display: flex; /* new */
+  flex-direction: column; /* new */
 }
 
 .weekday-header {
   font-size: 12px; /* Adjust the font size to your liking */
   text-align: center;
   padding: 10px 0;
+  border-width: 1px;
+  border-style: solid;
 }
 
 .hour-line,
@@ -41,7 +45,7 @@
 .hour-line {
   left: 0;
   right: 0;
-  height: 2px;
+  height: 1.5px;
   background-color: grey;
   color: grey;
   font-size: 10px;
@@ -54,4 +58,9 @@
   color: black;
   text-align: center;
   opacity: 0.6;
+}
+
+.content-container {
+  position: relative;
+  flex-grow: 1;
 }
