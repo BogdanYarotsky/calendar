@@ -25,7 +25,6 @@ const events: Event[] = [
   { weekday: "Monday", startHour: 3, endHour: 5 },
   { weekday: "Tuesday", startHour: 7, endHour: 9 },
   { weekday: "Wednesday", startHour: 0, endHour: 4 },
-
   // Add more events...
 ];
 
@@ -38,7 +37,6 @@ const HourLine = ({ hour, renderHour }: { hour: number, renderHour: boolean }) =
 
 const MovingLine = ({ second }: { second: number }) =>
   <div className="moving-line" style={{ top: `${getPercentage(second, SECONDS_IN_DAY)}%` }}></div>
-
 
 const EventBlock = ({ event }: { event: Event }) => {
   const top = getPercentage(event.startHour, HOURS_IN_DAY);
@@ -53,10 +51,9 @@ const EventBlock = ({ event }: { event: Event }) => {
 
 export default function App() {
   const [currentSecond, setCurrentSecond] = useState(getCurrentDaySecond());
-  const updateCurrentSecond = () => setCurrentSecond(getCurrentDaySecond());
 
   useEffect(() => {
-    const timerID = setInterval(updateCurrentSecond, updateIntervalInMS);
+    const timerID = setInterval(() => setCurrentSecond(getCurrentDaySecond()), updateIntervalInMS);
     return () => clearInterval(timerID);
   }, []);
 
